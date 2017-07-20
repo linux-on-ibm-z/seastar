@@ -43,7 +43,7 @@ struct prefetcher {
     prefetcher(uintptr_t ptr) {
         __builtin_prefetch(reinterpret_cast<void*>(ptr), RW, LOC);
         std::atomic_signal_fence(std::memory_order_seq_cst);
-        prefetcher<N-64, RW, LOC>(ptr + 64);
+        prefetcher<N-cache_line_size, RW, LOC>(ptr + cache_line_size);
     }
 };
 
