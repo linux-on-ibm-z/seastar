@@ -2817,8 +2817,9 @@ int reactor::run() {
             }
             if (go_to_sleep) {
 #if defined(__x86_64__) || defined(__i386__)
-                // TODO: serialize on other processors too?
                 _mm_pause();
+#elif defined(__s390x__)
+                __asm__("bcr 14,0"); // serialize
 #endif
                 if (idle_end - idle_start > _max_poll_time) {
                     // Turn off the task quota timer to avoid spurious wakeups
