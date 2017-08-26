@@ -289,6 +289,8 @@ thread_context::main() {
     // unwinders don't try to trace back past this frame.
     // See https://github.com/scylladb/scylla/issues/1909.
     asm(".cfi_undefined rip");
+#elif defined(__s390x__)
+    // Backtracing isn't currently supported.
 #else
     #warning "Backtracing from seastar threads may be broken"
 #endif
