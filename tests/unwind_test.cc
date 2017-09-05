@@ -35,6 +35,7 @@ void foo() {
 
 // Exploits issue #1725
 BOOST_AUTO_TEST_CASE(test_signal_mask_is_preserved_on_unwinding) {
+#ifdef HAVE_LIBUNWIND
     sigset_t mask;
     sigset_t old;
     sigfillset(&mask);
@@ -67,4 +68,7 @@ BOOST_AUTO_TEST_CASE(test_signal_mask_is_preserved_on_unwinding) {
             BOOST_REQUIRE(sigismember(&mask2, i) == sigismember(&mask, i));
         }
     }
+#else
+    std::cout << "no libunwind support, skipping test" << std::endl;
+#endif
 }
