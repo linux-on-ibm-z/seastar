@@ -289,6 +289,8 @@ thread_context::main() {
     // unwinders don't try to trace back past this frame.
     // See https://github.com/scylladb/scylla/issues/1909.
     asm(".cfi_undefined rip");
+#elif defined(__s390x__) || defined(__zarch__)
+    asm(".cfi_undefined r14"); // r14 is the link register in the ELF ABI
 #else
     #warning "Backtracing from seastar threads may be broken"
 #endif
