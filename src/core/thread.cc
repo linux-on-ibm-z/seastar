@@ -287,7 +287,6 @@ thread_context::main() {
 #elif defined(__aarch64__)
     asm(".cfi_undefined x30");
 #elif defined(__s390x__)
-    // Stop backtraces on s390x by marking the return address register r14 as undifined
     asm(".cfi_undefined r14");
 #else
     #warning "Backtracing from seastar threads may be broken"
